@@ -33,11 +33,11 @@ add_action( 'rest_api_init', function () {
 
 
 function mnmlytics( $request ) {
-	
+
    // $data = $request->get_params();
-   
+   // error_log(var_export($data, true));
+   // error_log(var_export($request, true));
    // poo($_SERVER);
-   // poo($request);s
 	
 	
 	
@@ -48,45 +48,29 @@ function mnmlytics( $request ) {
 	} else {
 		$device = 'L';
 	}
-	
-   
-   $local_time = substr( $request['time'], 0, 5);
-   
-   $href = $request['href'];
-   $js_referer = $request['referer'];
-   $pathname = $request['pathname'];
-   $search = $request['search'];
 
-	$headers = $request->get_headers();
-   $api_referer = $headers['referer'];
-   
-   $server_referer = $_SERVER['HTTP_REFERER'];
-   $ip =  $_SERVER['REMOTE_ADDR'];
-   
-   $date_gmt_sql = current_time( 'mysql', 1 );// gmdate( 'Y-m-d H:i:s' )
-   
-   global $wpdb;
+	global $wpdb;
 
-   $wpdb->insert(
-      "{$wpdb->prefix}mnmlytics",
-      array(
-         'gmt_date' => $date_gmt_sql,
-         'local_time' => $local_time,
-         'ip' => $ip,
-         'device' => $device,
+	$wpdb->insert(
+	  "{$wpdb->prefix}mnmlytics",
+	  array(
+	     'gmt_date' => current_time( 'mysql', 1 ),
+	     'local_time' => substr( $request['time'], 0, 5),
+	     'ip' => $_SERVER['REMOTE_ADDR'],
+	     'device' => $device,
 			'device_w' => $request['dw'],
 			'device_h' => $request['dh'],
 			'view_w' => $request['vw'],
 			'view_h' => $request['vh'],
-         'href' => $href,
-         'js_referer' => $js_referer,
-         'api_referer' => $href,
-         'server_referer' => $server_referer,
-         'pathname' => $pathname,
-         'search' => $search
-      ),
-      '%s'
-   );
+	     'href' => $request['href'],
+	     'js_referer' => $request['refer'],
+	     'api_referer' => $request->get_header('referer'),
+	     'server_referer' => $_SERVER['HTTP_REFERER'],
+	     'pathname' => $request['path'],
+	     'search' => $request['search']
+	  ),
+	  '%s'
+	);
 
 	// if ( $sent ) {
 //       return "success";
@@ -102,7 +86,7 @@ function mnmlytics( $request ) {
 add_action( 'wp_enqueue_scripts', function() {
 	
 	$suffix = SCRIPT_DEBUG ? "" : ".min";
-	wp_enqueue_script( 'mnmlytics', plugin_dir_url( __FILE__ ) . 'mnmlytics'.$suffix.'.js', null, null );
+	wp_enqueue_script( 'mnmlytics', plugin_dir_url( __FILE__ ) . 'mnmlytics'.$suffix.'.js', null, null, true );
 
 	//localize data for script
 	// wp_localize_script( 'contactmonger-submit', 'FORM_SUBMIT', array(
@@ -118,6 +102,27 @@ add_action( 'wp_enqueue_scripts', function() {
 add_filter('script_loader_tag', function($tag, $handle) {
 	return ( 'mnmlytics' !== $handle ) ? $tag : str_replace( ' src', ' defer src', $tag );
 }, 10, 2);
+
+
+function backend() {
+
+	
+	
+	// if ( ! file_exists( $path ) ) {
+// 		echo '<div class="notice notice-success"><p>No log found at '. $path .'.  Hopefully this means you have no errors.</p></div>';
+// 		return;
+// 	}
+	
+
+	echo '<div class="wrap"><h1>Minimal Analytics</h1>';
+	
+	// echo '<div style="padding-top:28px;">';
+	
+	
+
+	echo '</div>';
+}
+add_action( 'admin_menu', function() { add_submenu_page( 'tools.php', 'Minimal Analytics', 'Minimal Analytics', 'manage_options', 'mnmlytics', __NAMESPACE__.'\backend' ); } );
 
 
 function create_database() {
