@@ -17,7 +17,7 @@
 	console.log(data);
 	
 	var xhr = new XMLHttpRequest();
-	xhr.open('POST', '/wp-json/minimalanalytics/v1/post');
+	xhr.open('POST', '/wp-json/mnmlytics/v1/post');
 	xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
 	xhr.send(data);
 })();
