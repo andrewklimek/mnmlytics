@@ -4,7 +4,7 @@ namespace mnmlytics;
 Plugin Name: Minimal Analytics (mnmlytics)
 Plugin URI:  https://github.com/andrewklimek/mnmlytics
 Description: collect essential visitor metrics without compromising your visitors’ privacy or slowing down your site
-Version:     0.2
+Version:     0.3
 Author:      Andrew J Klimek
 Author URI:  https://github.com/andrewklimek
 License:     GPL2
