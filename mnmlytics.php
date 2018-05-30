@@ -36,10 +36,7 @@ function mnmlytics( $request ) {
 
    // $data = $request->get_params();
    // error_log(var_export($data, true));
-   // error_log(var_export($request, true));
-   // poo($_SERVER);
-	
-	
+   // error_log(var_export($request, true));	
 	
 	if ( 800 > $request['dw'] || 800 > $request['dh'] ) {
 		$device = 'S';
@@ -72,12 +69,6 @@ function mnmlytics( $request ) {
 	  '%s'
 	);
 
-	// if ( $sent ) {
-//       return "success";
-//    } else {
-//       return new WP_Error( 'mail_send_failed', 'mail send failed', array( 'status' => 404 ) );
-//    }
-	
 }
 
 /**
@@ -85,16 +76,7 @@ function mnmlytics( $request ) {
  */
 add_action( 'wp_enqueue_scripts', function() {
 	
-	$suffix = SCRIPT_DEBUG ? "" : ".min";
-	wp_enqueue_script( 'mnmlytics', plugin_dir_url( __FILE__ ) . 'mnmlytics'.$suffix.'.js', null, null, true );
-
-	//localize data for script
-	// wp_localize_script( 'contactmonger-submit', 'FORM_SUBMIT', array(
-// 			'url' => esc_url_raw( rest_url('formmonger/v1/submit') ),
-// 			'success' => 'Thanks!',
-// 			'failure' => 'Your submission could not be processed.',
-// 		)
-// 	);
+	wp_enqueue_script( 'mnmlytics', plugin_dir_url( __FILE__ ) . 'mnmlytics.js', null, null, true );
 
 });
 
@@ -105,24 +87,19 @@ add_filter('script_loader_tag', function($tag, $handle) {
 
 
 function backend() {
-
-	
 	
 	// if ( ! file_exists( $path ) ) {
 // 		echo '<div class="notice notice-success"><p>No log found at '. $path .'.  Hopefully this means you have no errors.</p></div>';
 // 		return;
 // 	}
 	
-
 	echo '<div class="wrap"><h1>Minimal Analytics</h1>';
 	
 	// echo '<div style="padding-top:28px;">';
-	
-	
 
 	echo '</div>';
 }
-add_action( 'admin_menu', function() { add_submenu_page( 'tools.php', 'Minimal Analytics', 'Minimal Analytics', 'manage_options', 'mnmlytics', __NAMESPACE__.'\backend' ); } );
+// add_action( 'admin_menu', function() { add_submenu_page( 'tools.php', 'Minimal Analytics', 'Minimal Analytics', 'manage_options', 'mnmlytics', __NAMESPACE__.'\backend' ); } );
 
 
 function create_database() {
