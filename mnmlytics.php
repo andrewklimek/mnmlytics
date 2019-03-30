@@ -38,9 +38,9 @@ function mnmlytics( $request ) {
    // error_log(var_export($data, true));
    // error_log(var_export($request, true));	
 	
-	if ( 800 > $request['dw'] || 800 > $request['dh'] ) {
+	if ( 555 > $request['dw'] || 555 > $request['dh'] ) {
 		$device = 'S';
-	} elseif ( 1200 > $request['dw'] ) {
+	} elseif ( 888 > $request['dw'] ) {
 		$device = 'M';
 	} else {
 		$device = 'L';
