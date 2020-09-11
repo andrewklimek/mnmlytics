@@ -28,6 +28,7 @@ add_action( 'rest_api_init', function () {
 	register_rest_route( 'mnmlytics/v1', '/post', array(
 		'methods' => 'POST',
 		'callback' => __NAMESPACE__.'\mnmlytics',
+		'permission_callback' => '__return_true',
 	) );
 } );
 
